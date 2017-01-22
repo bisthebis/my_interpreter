@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <QtCore>
+#include "myexception.h"
 
 QString getFileContent(const QString& path);
 
@@ -14,7 +15,7 @@ int main(int argc, char *argv[])
 
 QString getFileContent(const QString &path)
 {
-
+    QFile file(path);
 
 
     return "";
