@@ -10,7 +10,9 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    token.cpp
 
 HEADERS += \
-    myexception.h
+    myexception.h \
+    token.h
