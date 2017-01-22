@@ -4,7 +4,7 @@
 #include <QString>
 #include <QVariant>
 
-class Token
+struct Token
 {
 public:
     enum TokenType {
@@ -15,9 +15,11 @@ public:
         IDENTIFIER, NUMBER
     };
 
-    Token();
 
-private:
+public:
+    Token(TokenType type, QString lexeme, QVariant value, int line);
+    QString toString() const;
+
     const TokenType type;
     const QString lexeme;
     const QVariant value;
