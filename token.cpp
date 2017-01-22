@@ -36,5 +36,5 @@ Token::Token(TokenType type, QString lexeme, QVariant value, int line) :
 
 QString Token::toString() const
 {
-    return typeToString(type) + " : " + lexeme + value.toString();
+    return typeToString(type) + " : " + lexeme + ", " + value.toString();
 }
