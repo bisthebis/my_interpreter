@@ -12,7 +12,7 @@ public:
 
         LET, PRINT,
 
-        IDENTIFIER, NUMBER
+        IDENTIFIER, NUMBER //An identifier starts by a letter or _ and an number is an integral
     };
 
 
