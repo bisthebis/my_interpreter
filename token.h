@@ -8,7 +8,7 @@ struct Token
 {
 public:
     enum TokenType {
-        PLUS, MINUS, TIMES, SLASH, EQUAL,
+        PLUS, MINUS, TIMES, SLASH, EQUAL, END_OF_STATEMENT
 
         LET, PRINT,
 
