@@ -17,6 +17,7 @@ static QString typeToString(Token::TokenType type) {
     SHOW(Token::PRINT);
     SHOW(Token::IDENTIFIER);
     SHOW(Token::NUMBER);
+    SHOW(Token::END_OF_STATEMENT);
 
     default:
         throw MyException("UNKNOW TOKEN TYPE");
