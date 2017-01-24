@@ -6,7 +6,7 @@ QString getFileContent(const QString &path)
 {
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        throw MyException("Couldn't locate file : " + file.errorString());
+        throw MyException("Couldn't locate file : " + file.errorString() + ". Path is : " + path);
 
     const QByteArray data = file.readAll();
 
