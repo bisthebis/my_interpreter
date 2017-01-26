@@ -12,7 +12,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     token.cpp \
-    scanning.cpp
+    scanning.cpp \
+    symbols.cpp
 
 HEADERS += \
     myexception.h \
