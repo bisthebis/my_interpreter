@@ -6,6 +6,7 @@
 #include <QScopedPointer>
 #include <QString>
 #include "token.h"
+#include "myexception.h"
 
 //IMPORTANT : evaluation shall be done using a "Context" variable, aka environment. It is put here... for the time being.
 struct Context {
@@ -17,6 +18,7 @@ struct Context {
  */
 struct Expression {
         virtual double evaluate(Context& c) const = 0;
+        virtual ~Expression();
     };
 
 struct NumberExpression : public Expression {
@@ -34,6 +36,37 @@ struct VariableExpression : public Expression {
         }
         QString name;
         VariableExpression(QString n) : name(n) {}
+    };
+struct AdditionExpression : public Expression {
+        virtual double evaluate(Context &c) const Q_DECL_OVERRIDE {
+            return lhs->evaluate(c) + rhs->evaluate(c);
+        }
+        QScopedPointer<Expression> lhs, rhs;
+        AdditionExpression(Expression* l, Expression* r) : lhs(l), rhs(r) {}
+    };
+struct SubstractExpression : public Expression {
+        virtual double evaluate(Context &c) const Q_DECL_OVERRIDE {
+            return lhs->evaluate(c) - rhs->evaluate(c);
+        }
+        QScopedPointer<Expression> lhs, rhs;
+        SubstractExpression(Expression* l, Expression* r) : lhs(l), rhs(r) {}
+    };
+struct MultiplicationExpression : public Expression {
+        virtual double evaluate(Context &c) const Q_DECL_OVERRIDE {
+            return lhs->evaluate(c) * rhs->evaluate(c);
+        }
+        QScopedPointer<Expression> lhs, rhs;
+        MultiplicationExpression(Expression* l, Expression* r) : lhs(l), rhs(r) {}
+    };
+struct DivisionExpression : public Expression {
+        virtual double evaluate(Context &c) const Q_DECL_OVERRIDE {
+            double divisor = rhs->evaluate(c);
+            if (divisor == 0)
+                throw MyException("Divide by zero");
+            return lhs->evaluate(c) / divisor;
+        }
+        QScopedPointer<Expression> lhs, rhs;
+        DivisionExpression(Expression* l, Expression* r) : lhs(l), rhs(r) {}
     };
 
 //QVector<Symbol> parse(const QVector<Token>& tokens);
