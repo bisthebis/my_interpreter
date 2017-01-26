@@ -22,8 +22,8 @@ Formal rules :
  * Expr -> Expr / Expr
  * Statement -> LetStatement
  * Statement -> PrintStatement
- * LetStatement -> let Variable = Expr
- * PrintStatement -> print Variable
+ * LetStatement -> let Variable = Expr;
+ * PrintStatement -> print Variable;
 
- Terminal symbols are {Number, Variable, let, print, =, +, -, *, /}
+ Terminal symbols are {Number, Variable, let, print, =, +, -, *, /, ;}
  Non-Terminal symbols are {Expr, Statement, LetStatement, PrintStatement}

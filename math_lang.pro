@@ -17,4 +17,5 @@ SOURCES += main.cpp \
 HEADERS += \
     myexception.h \
     token.h \
-    scanning.h
+    scanning.h \
+    symbols.h
