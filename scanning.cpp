@@ -50,17 +50,17 @@ QVector<Token> scan(const QString source)
             result.append(Token(Token::NUMBER, currentWord, number, line));
         }   else if (c == ';')
         {
-            result.append(Token(Token::END_OF_STATEMENT, ";", ';', line));
+            result.append(Token(Token::END_OF_STATEMENT, ";", ";", line));
         }   else if (c == '=') {
-            result.append(Token(Token::EQUAL, "=", '=', line));
+            result.append(Token(Token::EQUAL, "=", "=", line));
         }   else if (c == '+') {
-            result.append(Token(Token::PLUS, "+", '+', line));
+            result.append(Token(Token::PLUS, "+", "+", line));
         }   else if (c == '-') {
-            result.append(Token(Token::MINUS, "-", '-', line));
+            result.append(Token(Token::MINUS, "-", "-", line));
         }   else if (c == '*') {
-            result.append(Token(Token::TIMES, "*", '*', line));
+            result.append(Token(Token::TIMES, "*", "*", line));
         }   else if (c == '/') {
-            result.append(Token(Token::SLASH, "/", '/', line));
+            result.append(Token(Token::SLASH, "/", "/", line));
         }
 
         ++it;
