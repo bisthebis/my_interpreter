@@ -22,7 +22,7 @@ struct Context {
  */
 struct Expression {
         virtual double evaluate(Context& c) const = 0;
-        virtual ~Expression();
+        virtual ~Expression(){}
     };
 
 struct NumberExpression : public Expression {
@@ -97,7 +97,7 @@ struct PrintStatement : public Statement {
     PrintStatement(QString var) : varName(var) {}
 };
 
-//QVector<Symbol> parse(const QVector<Token>& tokens);
+Expression* parseExpr(QVector<Token>::const_iterator it, QVector<Token>::const_iterator end);
 
 
 #endif // SYMBOLS_H
