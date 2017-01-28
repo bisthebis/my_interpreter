@@ -60,3 +60,31 @@ Expression* parseExpr(QVector<Token>::const_iterator it, QVector<Token>::const_i
         return operation;
     }
 }
+
+QVector<Statement*> parseTokens(const QVector<Token> &src)
+{
+    QVector<Statement*> result;
+    auto it = src.cbegin();
+    const auto end = src.cend();
+    for (; it != end; ++it)
+    {
+        if (it->type != Token::PRINT && it->type != Token::LET)
+            continue;
+
+        if (it->type == Token::PRINT)
+        {
+            auto varName = (it+1)->value.toString();
+            result.append(new PrintStatement(varName));
+        }
+        else if (it->type == Token::LET)
+        {
+            auto varName = (it+1)->value.toString();
+            if ((it+2)->type != Token::EQUAL)
+                throw MyException("Let statemetn without '=' following");
+            Expression* expr = parseExpr(it+3, end);
+            result.append(new LetStatement(varName, expr));
+        }
+    }
+
+    return result;
+}

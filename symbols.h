@@ -77,12 +77,13 @@ struct DivisionExpression : public Expression {
  *
  */
 struct Statement {
-    virtual void run(Context& c) = 0;
-    virtual ~Statement();
+    virtual void run(Context& c) const = 0;
+    virtual ~Statement(){}
 };
 struct LetStatement : public Statement {
-    virtual void run(Context &c) const {
+    virtual void run(Context &c) const Q_DECL_OVERRIDE {
         double value = expr->evaluate(c);
+        qDebug() << "RUNNING LET STATEMETN : " << varName << " gets value : " << value;
         c.setVariable(varName, value);
     }
     QString varName;
@@ -90,7 +91,7 @@ struct LetStatement : public Statement {
     LetStatement(QString var, Expression* e) : varName(var), expr(e) {}
 };
 struct PrintStatement : public Statement {
-    virtual void run(Context &c) const {
+    virtual void run(Context &c) const Q_DECL_OVERRIDE {
         qDebug() << "RUNNING PRINT STATEMETN : " << c.getVariable(varName);
     }
     QString varName;
@@ -98,6 +99,7 @@ struct PrintStatement : public Statement {
 };
 
 Expression* parseExpr(QVector<Token>::const_iterator it, QVector<Token>::const_iterator end);
+QVector<Statement*> parseTokens(const QVector<Token>& src);
 
 
 #endif // SYMBOLS_H

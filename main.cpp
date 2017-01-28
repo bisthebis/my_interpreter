@@ -2,6 +2,7 @@
 #include <QtCore>
 #include <QtDebug>
 #include "scanning.h"
+#include "symbols.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,12 @@ int main(int argc, char *argv[])
         for(const auto& e : tokens)
         {
             qDebug() << e.toString();
+        }
+        auto context = Context();
+        auto statements = parseTokens(tokens);
+        for (auto s : statements)
+        {
+            s->run(context);
         }
     }
     catch (MyException& e)
