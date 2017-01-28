@@ -6,6 +6,7 @@
 #include <QScopedPointer>
 #include <QString>
 #include <QDebug>
+#include <QMap>
 #include "token.h"
 #include "myexception.h"
 
@@ -13,6 +14,7 @@
 struct Context {
         double getVariable(QString var) const;
         void setVariable(QString var, double val);
+        QMap<QString, double> variables;
     };
 
 /** @brief Abstract class used to represent an expression that can be evaluated, a.k.a number literal,
