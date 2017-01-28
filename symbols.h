@@ -5,12 +5,14 @@
 #include <QVariant>
 #include <QScopedPointer>
 #include <QString>
+#include <QDebug>
 #include "token.h"
 #include "myexception.h"
 
 //IMPORTANT : evaluation shall be done using a "Context" variable, aka environment. It is put here... for the time being.
 struct Context {
         double getVariable(QString var) const;
+        void setVariable(QString var, double val);
     };
 
 /** @brief Abstract class used to represent an expression that can be evaluated, a.k.a number literal,
@@ -68,6 +70,30 @@ struct DivisionExpression : public Expression {
         QScopedPointer<Expression> lhs, rhs;
         DivisionExpression(Expression* l, Expression* r) : lhs(l), rhs(r) {}
     };
+
+/** @brief Abstract class representing an executable instruction, i.e a print statement or a let statement.
+ *
+ */
+struct Statement {
+    virtual void run(Context& c) = 0;
+    virtual ~Statement();
+};
+struct LetStatement : public Statement {
+    virtual void run(Context &c) const {
+        double value = expr->evaluate(c);
+        c.setVariable(varName, value);
+    }
+    QString varName;
+    QScopedPointer<Expression> expr;
+    LetStatement(QString var, Expression* e) : varName(var), expr(e) {}
+};
+struct PrintStatement : public Statement {
+    virtual void run(Context &c) const {
+        qDebug() << "RUNNING PRINT STATEMETN : " << c.getVariable(varName);
+    }
+    QString varName;
+    PrintStatement(QString var) : varName(var) {}
+};
 
 //QVector<Symbol> parse(const QVector<Token>& tokens);
 
