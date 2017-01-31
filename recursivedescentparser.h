@@ -12,15 +12,22 @@ namespace RecursiveDescent {
 
 class RecursiveDescentParser
 {
+using Node = QSharedPointer<ASTNode>;
+
 private:
     const QVector<Token>& tokens;
     QVector<Token>::const_iterator it;
     const QVector<Token>::const_iterator end;
-    bool accept(Token::TokenType t) const; //Checks whether the current token is a t, and advance it if it's true
-    void expect(Token::TokenType t, QString err) const; //Checks if current token is a t, and throw Exception if it's not
+    bool accept(Token::TokenType t); //Checks whether the current token is a t, and advance it if it's true
+    void expect(Token::TokenType t, QString err); //Checks if current token is a t, and throw Exception if it's not
+
+    Node parseInstruction();
+    Node parseAssignment();
+    Node parsePrint();
+    Node parseExpression();
 public:
     RecursiveDescentParser(const QVector<Token>& t);
-    QSharedPointer<ASTNode> parse() const;
+    QSharedPointer<ASTNode> parse() const; // returns the program, as top-tier
 };
 
 
