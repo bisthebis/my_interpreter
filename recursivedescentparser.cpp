@@ -56,17 +56,42 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
 {
-    QVariant value;
+    QVariant value = it->value;
+    Node lhs;
     if (accept(Token::IDENTIFIER))
     {
-        expect(Token::END_OF_STATEMENT, QStringLiteral("Arithmetic unsupported yet"));
-        return Node(new ASTVariable(value.toString()));
+        lhs = Node(new ASTVariable(value.toString()));
     }
-    if (accept(Token::NUMBER))
+    else if (accept(Token::NUMBER))
     {
-        expect(Token::END_OF_STATEMENT, QStringLiteral("Arithmetic unsupported yet"));
-        return Node(new ASTNumber(value.toDouble()));
+        lhs =  Node(new ASTNumber(value.toDouble()));
     }
+
+    //Now that lhs is known, decide what to do
+    if (accept(Token::END_OF_STATEMENT))
+        return lhs;
+    else if (accept(Token::PLUS))
+    {
+        auto rhs = parseExpression();
+        return Node(new ASTPlus(lhs, rhs));
+    }
+    else if (accept(Token::MINUS))
+    {
+        auto rhs = parseExpression();
+        return Node(new ASTMinus(lhs, rhs));
+    }
+    else if (accept(Token::TIMES))
+    {
+        auto rhs = parseExpression();
+        return Node(new ASTTimes(lhs, rhs));
+    }
+    else if (accept(Token::SLASH))
+    {
+        auto rhs = parseExpression();
+        return Node(new ASTSlash(lhs, rhs));
+    }
+    else throw MyException("Expression expects operand or semicolong");
+
     throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
 
