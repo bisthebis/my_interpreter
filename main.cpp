@@ -4,6 +4,7 @@
 #include "scanning.h"
 #include "symbols.h"
 #include "recursivedescentparser.h"
+#include "astprinter.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
         }
         auto parser = RecursiveDescent::RecursiveDescentParser(tokens);
         auto Program = parser.parse();
+        auto visitor = RecursiveDescent::ASTPrinter();
+        Program->accept(visitor);
         qDebug() << "Successfully parsed program";
     }
     catch (MyException& e)
