@@ -16,6 +16,7 @@ struct ASTNode {
 
 struct ASTProgram : ASTNode {
     virtual void accept(ASTVisitor& v) {v.visitProgram(*this);}
+    ASTProgram(QVector<QSharedPointer<ASTNode>> data) : instructions(data){}
     QVector<QSharedPointer<ASTNode>> instructions;
 };
 

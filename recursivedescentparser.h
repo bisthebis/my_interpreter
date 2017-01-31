@@ -27,7 +27,7 @@ private:
     Node parseExpression();
 public:
     RecursiveDescentParser(const QVector<Token>& t);
-    Node parse() const; // returns the program, as top-tier
+    Node parse(); // returns the program, as top-tier
 };
 
 

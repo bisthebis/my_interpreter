@@ -43,6 +43,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseAssignment()
     expect(Token::IDENTIFIER, QStringLiteral("'Let' expects identifier"));
     expect(Token::EQUAL, QStringLiteral("Expected '=' after identifier in let statement"));
     Node expr = parseExpression();
+    //End of statement is not required because parseExpression consumes it
     return Node(new ASTLetStatement(variableName, expr));
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
@@ -50,6 +51,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
     //"print" token as already been consumed
     QString variableName = it->value.toString();
     expect(Token::IDENTIFIER, QStringLiteral("Expected identifier following print"));
+    expect(Token::END_OF_STATEMENT, QStringLiteral("Expected semicolon"));
     return Node(new ASTPrintStatement(variableName));
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
@@ -68,10 +70,14 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
 
-RecursiveDescentParser::Node RecursiveDescentParser::parse() const {
+RecursiveDescentParser::Node RecursiveDescentParser::parse() {
+    QVector<Node> program;
+    do {
+        auto instruction = parseInstruction();
+        program.append(instruction);
+    } while (it != end);
 
-
-    return Node(nullptr);
+    return QSharedPointer<ASTNode>(new ASTProgram(program));
 }
 
 
