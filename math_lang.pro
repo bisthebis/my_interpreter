@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     scanning.cpp \
     symbols.cpp \
     recursivedescentparser.cpp \
-    astprinter.cpp
+    astprinter.cpp \
+    ast_c_transpiler.cpp
 
 HEADERS += \
     myexception.h \
@@ -25,4 +26,5 @@ HEADERS += \
     recursivedescentparser.h \
     astvisitor.h \
     astnode.h \
-    astprinter.h
+    astprinter.h \
+    ast_c_transpiler.h
