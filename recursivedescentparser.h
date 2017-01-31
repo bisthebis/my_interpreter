@@ -27,7 +27,7 @@ private:
     Node parseExpression();
 public:
     RecursiveDescentParser(const QVector<Token>& t);
-    QSharedPointer<ASTNode> parse() const; // returns the program, as top-tier
+    Node parse() const; // returns the program, as top-tier
 };
 
 

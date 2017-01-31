@@ -68,10 +68,10 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
 
-QSharedPointer<ASTNode> RecursiveDescentParser::parse() const {
-    using TreePtr = QSharedPointer<ASTNode>;
+RecursiveDescentParser::Node RecursiveDescentParser::parse() const {
 
-    return TreePtr(nullptr);
+
+    return Node(nullptr);
 }
 
 
