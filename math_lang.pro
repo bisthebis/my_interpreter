@@ -13,10 +13,14 @@ TEMPLATE = app
 SOURCES += main.cpp \
     token.cpp \
     scanning.cpp \
-    symbols.cpp
+    symbols.cpp \
+    recursivedescentparser.cpp
 
 HEADERS += \
     myexception.h \
     token.h \
     scanning.h \
-    symbols.h
+    symbols.h \
+    recursivedescentparser.h \
+    astvisitor.h \
+    astnode.h
