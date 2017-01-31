@@ -3,7 +3,7 @@
 
 namespace RecursiveDescent {
 
-ASTPrinter::ASTPrinter()
+ASTPrinter::ASTPrinter() : hadErrors(false)
 {
 }
 
@@ -16,6 +16,7 @@ void ASTPrinter::visitProgram(ASTProgram &p)
     if (!semanticErrors.empty())
         {
             qDebug() << "Some errors where found : " << semanticErrors;
+            hadErrors = true;
         }
 }
 

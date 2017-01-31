@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
         auto visitor = RecursiveDescent::ASTPrinter();
         auto transpiler = AST_C_Transpiler(QStandardPaths::standardLocations(QStandardPaths::DataLocation)[0] + "/out.c");
         Program->accept(visitor);
+        if (visitor.hadErrors)
+            throw MyException("Didn't convert to C because error(s) were found.");
         Program->accept(transpiler);
         qDebug() << "Successfully parsed program";
     }

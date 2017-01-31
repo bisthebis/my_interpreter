@@ -32,7 +32,7 @@ void AST_C_Transpiler::visitLetStatement(ASTLetStatement &p)
 {
     currentExpr ="";
     p.expression->accept(*this);
-    QString line = "\tdouble " + p.varName + " =" + currentExpr + ";\n";
+    QString line = "\tconst double " + p.varName + " =" + currentExpr + ";\n";
     content << line;
 }
 
@@ -53,31 +53,37 @@ void AST_C_Transpiler::visitNumber(ASTNumber &p)
 
 void AST_C_Transpiler::visitPlus(ASTPlus &p)
 {
+    currentExpr += " (";
     p.lhs->accept(*this);
     currentExpr += "+";
     p.rhs->accept(*this);
+    currentExpr += ") ";
 }
 
 void AST_C_Transpiler::visitMinus(ASTMinus &p)
 {
+    currentExpr += " (";
     p.lhs->accept(*this);
     currentExpr += "-";
     p.rhs->accept(*this);
-
+    currentExpr += ") ";
 }
 
 void AST_C_Transpiler::visitTimes(ASTTimes &p)
 {
+    currentExpr += " (";
     p.lhs->accept(*this);
     currentExpr += "*";
     p.rhs->accept(*this);
-
+    currentExpr += ") ";
 }
 
 void AST_C_Transpiler::visitSlash(ASTSlash &p)
 {
+    currentExpr += " (";
     p.lhs->accept(*this);
     currentExpr += "/";
     p.rhs->accept(*this);
+    currentExpr += ") ";
 
 }
