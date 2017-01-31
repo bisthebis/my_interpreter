@@ -38,7 +38,7 @@ void AST_C_Transpiler::visitLetStatement(ASTLetStatement &p)
 
 void AST_C_Transpiler::visitPrintStatement(ASTPrintStatement &p)
 {
-    content << QString("\tprintf(\"%f\", %1)").arg(p.varName) + ";\n";
+    content << QString("\tprintf(\"%f\\n\", %1)").arg(p.varName) + ";\n";
 }
 
 void AST_C_Transpiler::visitVariable(ASTVariable &p)
