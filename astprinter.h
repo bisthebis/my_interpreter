@@ -3,6 +3,9 @@
 
 #include "astnode.h"
 #include "astvisitor.h"
+#include <QString>
+#include <QSet>
+#include <QStringList>
 
 
 namespace RecursiveDescent {
@@ -21,6 +24,9 @@ public:
     virtual void visitSlash(ASTSlash& p) Q_DECL_OVERRIDE;
     virtual void visitNumber(ASTNumber& p) Q_DECL_OVERRIDE;
     virtual void visitVariable(ASTVariable& p) Q_DECL_OVERRIDE;
+private:
+    QSet<QString> identifiers;
+    QStringList semanticErrors;
 
 };
 
