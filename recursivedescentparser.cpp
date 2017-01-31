@@ -20,7 +20,7 @@ bool RecursiveDescentParser::accept(Token::TokenType t)
 void RecursiveDescentParser::expect(Token::TokenType t, QString err)
 {
     if (it->type != t)
-        throw MyException(QStringLiteral("Syntax Error : ") + err);
+        throw MyException(QStringLiteral("Syntax Error : ") + err + QString(" at line %1").arg(it->line));
 
     it++;
     return;
