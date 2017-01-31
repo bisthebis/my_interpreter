@@ -56,6 +56,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
 {
+    //WARNING : at the moment, operator precedence is not implemented
     QVariant value = it->value;
     Node lhs;
     if (accept(Token::IDENTIFIER))

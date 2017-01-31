@@ -3,6 +3,7 @@
 #include <QtDebug>
 #include "scanning.h"
 #include "symbols.h"
+#include "recursivedescentparser.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,12 +16,9 @@ int main(int argc, char *argv[])
         {
             qDebug() << e.toString();
         }
-        auto context = Context();
-        auto statements = parseTokens(tokens);
-        for (auto s : statements)
-        {
-            s->run(context);
-        }
+        auto parser = RecursiveDescent::RecursiveDescentParser(tokens);
+        auto Program = parser.parse();
+        qDebug() << "Successfully parsed program";
     }
     catch (MyException& e)
     {
