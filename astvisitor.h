@@ -16,7 +16,7 @@ struct ASTVariable;
 class ASTVisitor
 {
 public:
-    ASTVisitor();
+    ASTVisitor() {}
     virtual ~ASTVisitor(){}
     virtual void visitProgram(ASTProgram& p) = 0;
     virtual void visitLetStatement(ASTLetStatement& p) = 0;
