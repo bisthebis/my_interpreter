@@ -2,7 +2,7 @@ QT += core
 Qt += concurrent
 QT -= gui
 
-CONFIG += c++11
+CONFIG += c++14
 
 TARGET = math_lang
 CONFIG += console
@@ -13,7 +13,6 @@ TEMPLATE = app
 SOURCES += main.cpp \
     token.cpp \
     scanning.cpp \
-    symbols.cpp \
     recursivedescentparser.cpp \
     astprinter.cpp \
     ast_c_transpiler.cpp
@@ -22,7 +21,6 @@ HEADERS += \
     myexception.h \
     token.h \
     scanning.h \
-    symbols.h \
     recursivedescentparser.h \
     astvisitor.h \
     astnode.h \

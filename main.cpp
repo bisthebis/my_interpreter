@@ -2,7 +2,6 @@
 #include <QtCore>
 #include <QtDebug>
 #include "scanning.h"
-#include "symbols.h"
 #include "recursivedescentparser.h"
 #include "astprinter.h"
 #include "ast_c_transpiler.h"
