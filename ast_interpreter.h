@@ -1,6 +1,5 @@
-#ifndef AST_C_TRANSPILER_H
-#define AST_C_TRANSPILER_H
-
+#ifndef AST_INTERPRETER_H
+#define AST_INTERPRETER_H
 
 #include "astnode.h"
 #include "astvisitor.h"
@@ -25,9 +24,10 @@ public:
 private:
     QMap<QString, double> environment;
     QTextStream& stream;
+    double buffer; //For visiting expressions;
 
 };
 
 
 
-#endif // AST_C_TRANSPILER_H
+#endif // AST_INTERPRETER_H
