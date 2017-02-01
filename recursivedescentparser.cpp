@@ -106,10 +106,6 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
 
-/*RecursiveDescentParser::Node RecursiveDescentParser::parseExpressionToEndParen() {
-
-    }*/
-
 RecursiveDescentParser::Node RecursiveDescentParser::parse() {
     QVector<Node> program;
     do {
