@@ -5,6 +5,7 @@
 #include "recursivedescentparser.h"
 #include "astprinter.h"
 #include "ast_c_transpiler.h"
+#include "ast_interpreter.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,12 @@ int main(int argc, char *argv[])
             throw MyException("Didn't convert to C because error(s) were found.");
         Program->accept(transpiler);
         qDebug() << "Successfully parsed program";
+        qDebug() << "Interpreting program...";
+        QString output;
+        QTextStream out(&output);
+        ASTInterpreter interpreter(out);
+        Program->accept(interpreter);
+        qDebug() << "Program output : " << endl << output;
     }
     catch (MyException& e)
     {

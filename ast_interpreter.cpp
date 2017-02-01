@@ -12,6 +12,10 @@ ASTInterpreter::ASTInterpreter(QTextStream& stream) : stream(stream)
 
 void ASTInterpreter::visitProgram(ASTProgram &p)
 {
+    for (auto& instruction : p.instructions)
+        {
+            instruction->accept(*this);
+        }
 
 }
 
@@ -19,7 +23,8 @@ void ASTInterpreter::visitLetStatement(ASTLetStatement &p)
 {
     if (environment.contains(p.varName))
         throw MyException("Assigning previously defined variable !");
-    environment[p.varName] = 0;//Evaluate expression !
+    p.expression->accept(*this);
+    environment[p.varName] = buffer;//Evaluate expression !
 }
 
 void ASTInterpreter::visitPrintStatement(ASTPrintStatement &p)
@@ -31,31 +36,48 @@ void ASTInterpreter::visitPrintStatement(ASTPrintStatement &p)
 
 void ASTInterpreter::visitVariable(ASTVariable &p)
 {
+    if (!environment.contains(p.varName))
+        throw MyException("Using undefined variable");
 
+    buffer = environment[p.varName];
 }
 
 void ASTInterpreter::visitNumber(ASTNumber &p)
 {
-
+    buffer = p.value;
 }
 
 void ASTInterpreter::visitPlus(ASTPlus &p)
 {
-
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    buffer = lhs + buffer;
 }
 
 void ASTInterpreter::visitMinus(ASTMinus &p)
 {
-
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    buffer = lhs - buffer;
 }
 
 void ASTInterpreter::visitTimes(ASTTimes &p)
 {
-
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    buffer = lhs * buffer;
 }
 
 void ASTInterpreter::visitSlash(ASTSlash &p)
 {
-    //TODO : exception when dividing by 0
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    if (buffer == 0)
+        throw MyException("Division by zero !");
+    buffer = lhs / buffer;
 
 }
