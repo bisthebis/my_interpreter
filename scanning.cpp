@@ -61,6 +61,10 @@ QVector<Token> scan(const QString source)
             result.append(Token(Token::TIMES, "*", "*", line));
         }   else if (c == '/') {
             result.append(Token(Token::SLASH, "/", "/", line));
+        }   else if (c == '(') {
+                result.append(Token(Token::LEFT_PAREN, "(", "(", line));
+        }   else if (c == ')') {
+                result.append(Token(Token::RIGHT_PAREN, ")", ")", line));
         }
 
         ++it;
