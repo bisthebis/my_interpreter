@@ -28,12 +28,14 @@ void RecursiveDescentParser::expect(Token::TokenType t, QString err)
 
 RecursiveDescentParser::Node RecursiveDescentParser::parseInstruction()
 {
+    while (accept(Token::END_OF_STATEMENT)) //Many ; are allowed between statements
+        continue;
     if (accept(Token::LET))
         return parseAssignment();
     if (accept(Token::PRINT))
         return parsePrint();
 
-    throw MyException("Statement beginning with neither print or let");
+    throw MyException(QString("Statement beginning with neither print or let at line %1. Received token %2").arg(it->line).arg(it->lexeme));
 }
 
 RecursiveDescentParser::Node RecursiveDescentParser::parseAssignment()
@@ -69,20 +71,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     }
     else if (accept(Token::LEFT_PAREN))
     {
-        if ((it+1)->type == Token::RIGHT_PAREN)
-            {
-                if (accept(Token::IDENTIFIER))
-                {
-                    value = (it-1)->value;
-                    lhs = Node(new ASTVariable(value.toString()));
-                }
-                else if (accept(Token::NUMBER))
-                {
-                    value = (it-1)->value;
-                    lhs =  Node(new ASTNumber(value.toDouble()));
-                }
-                expect(Token::RIGHT_PAREN, "Single arg parenthesis must end with a parentehsis end");
-            }
+        lhs = parseExpression();
     }
     else
     {
@@ -90,7 +79,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     }
 
     //Now that lhs is known, decide what to do
-    if (accept(Token::END_OF_STATEMENT))
+    if (accept(Token::END_OF_STATEMENT) || accept(Token::RIGHT_PAREN))
         return lhs;
     else if (accept(Token::PLUS))
     {
@@ -112,10 +101,14 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
         auto rhs = parseExpression();
         return Node(new ASTSlash(lhs, rhs));
     }
-    else throw MyException("Expression expects operand or semicolong");
+    else throw MyException(QString("Expression expects operand or semicolong. Line %1, received token %2").arg(it->line).arg(it->lexeme));
 
     throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
+
+/*RecursiveDescentParser::Node RecursiveDescentParser::parseExpressionToEndParen() {
+
+    }*/
 
 RecursiveDescentParser::Node RecursiveDescentParser::parse() {
     QVector<Node> program;
