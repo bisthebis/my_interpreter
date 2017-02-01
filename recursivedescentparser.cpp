@@ -67,6 +67,27 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
     {
         lhs =  Node(new ASTNumber(value.toDouble()));
     }
+    else if (accept(Token::LEFT_PAREN))
+    {
+        if ((it+1)->type == Token::RIGHT_PAREN)
+            {
+                if (accept(Token::IDENTIFIER))
+                {
+                    value = (it-1)->value;
+                    lhs = Node(new ASTVariable(value.toString()));
+                }
+                else if (accept(Token::NUMBER))
+                {
+                    value = (it-1)->value;
+                    lhs =  Node(new ASTNumber(value.toDouble()));
+                }
+                expect(Token::RIGHT_PAREN, "Single arg parenthesis must end with a parentehsis end");
+            }
+    }
+    else
+    {
+        throw MyException("Expecting expression to start with number or identifier");
+    }
 
     //Now that lhs is known, decide what to do
     if (accept(Token::END_OF_STATEMENT))
