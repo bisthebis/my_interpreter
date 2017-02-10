@@ -20,6 +20,7 @@ Formal rules :
  * Expr -> Expr - Expr
  * Expr -> Expr * Expr
  * Expr -> Expr / Expr
+ * Expr -> (Expr)
  * Statement -> LetStatement
  * Statement -> PrintStatement
  * LetStatement -> let Variable = Expr;
