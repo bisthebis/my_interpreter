@@ -25,6 +25,8 @@ private:
     Node parseInstruction();
     Node parseAssignment();
     Node parsePrint();
+    Node parseAtom();
+    Node parseTerm();
     Node parseExpression();
 public:
     RecursiveDescentParser(const QVector<Token>& t);

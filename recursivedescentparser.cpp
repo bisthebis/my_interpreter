@@ -56,55 +56,41 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
     expect(Token::END_OF_STATEMENT, QStringLiteral("Expected semicolon"));
     return Node(new ASTPrintStatement(variableName));
 }
-RecursiveDescentParser::Node RecursiveDescentParser::parseExpression()
-{
-    //WARNING : at the moment, operator precedence is not implemented
+RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {
+    //Todo parenthesis && exponent (one day ?)
     QVariant value = it->value;
-    Node lhs;
-    if (accept(Token::IDENTIFIER))
-    {
-        lhs = Node(new ASTVariable(value.toString()));
+    if (accept(Token::IDENTIFIER)) {
+        return Node(new ASTVariable(value.toString()));
     }
-    else if (accept(Token::NUMBER))
-    {
-        lhs =  Node(new ASTNumber(value.toDouble()));
+    if (accept(Token::NUMBER)) {
+        return Node(new ASTNumber(value.toDouble()));
     }
-    else if (accept(Token::LEFT_PAREN))
-    {
-        lhs = parseExpression();
-    }
-    else
-    {
-        throw MyException("Expecting expression to start with number or identifier");
-    }
+    throw MyException("Atom that is neither id or number");
 
-    //Now that lhs is known, decide what to do
-    if (accept(Token::END_OF_STATEMENT) || accept(Token::RIGHT_PAREN))
-        return lhs;
-    else if (accept(Token::PLUS))
-    {
-        auto rhs = parseExpression();
-        return Node(new ASTPlus(lhs, rhs));
-    }
-    else if (accept(Token::MINUS))
-    {
-        auto rhs = parseExpression();
-        return Node(new ASTMinus(lhs, rhs));
-    }
-    else if (accept(Token::TIMES))
-    {
-        auto rhs = parseExpression();
-        return Node(new ASTTimes(lhs, rhs));
-    }
-    else if (accept(Token::SLASH))
-    {
-        auto rhs = parseExpression();
-        return Node(new ASTSlash(lhs, rhs));
-    }
-    else throw MyException(QString("Expression expects operand or semicolong. Line %1, received token %2").arg(it->line).arg(it->lexeme));
-
-    throw MyException("Expression must (at the moment) start by an identifier or a number");
 }
+
+RecursiveDescentParser::Node RecursiveDescentParser::parseTerm() {
+    auto lhs = parseAtom();
+    if (accept(Token::TIMES)) {
+        return Node(new ASTTimes(lhs, parseAtom()));
+    }
+    if (accept(Token::SLASH)) {
+        return Node(new ASTSlash(lhs, parseAtom()));
+    }
+    return lhs;
+}
+
+RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
+    auto lhs = parseTerm();
+    if (accept(Token::PLUS)) {
+        return Node(new ASTPlus(lhs, parseExpression()));
+    }
+    if (accept(Token::MINUS)) {
+        return Node(new ASTMinus(lhs, parseExpression()));
+    }
+    return lhs;
+}
+
 
 RecursiveDescentParser::Node RecursiveDescentParser::parse() {
     QVector<Node> program;
