@@ -57,7 +57,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
     return Node(new ASTPrintStatement(variableName));
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {
-    //Todo parenthesis && exponent (one day ?)
+    //exponent (one day ?)
     QVariant value = it->value;
     if (accept(Token::IDENTIFIER)) {
         return Node(new ASTVariable(value.toString()));
@@ -65,7 +65,12 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {
     if (accept(Token::NUMBER)) {
         return Node(new ASTNumber(value.toDouble()));
     }
-    throw MyException("Atom that is neither id or number");
+    if (accept(Token::LEFT_PAREN)) {
+        auto expr = parseExpression();
+        expect(Token::RIGHT_PAREN, QStringLiteral("Expected end of parenthesis"));
+        return expr;
+    }
+    throw MyException("Atom that is neither id, number, or expression within parenthesis");
 
 }
 
@@ -81,6 +86,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseTerm() {
 }
 
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
+    //TODO : fix associativity. A - B + C gets parsed as A - (B + C)
     auto lhs = parseTerm();
     if (accept(Token::PLUS)) {
         return Node(new ASTPlus(lhs, parseExpression()));
