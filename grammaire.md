@@ -14,13 +14,16 @@ Expressions are composed of addtion, multiplication, substraction and division, 
 ##Syntax analysis
 
 Formal rules :
- * Expr -> Number
- * Expr -> Variable
- * Expr -> Expr + Expr
- * Expr -> Expr - Expr
- * Expr -> Expr * Expr
- * Expr -> Expr / Expr
- * Expr -> (Expr)
+ * Atom -> Number
+ * Atom -> Variable
+ * Atom -> (Expr)
+ * Atom -> Atom ^ Atom (Not implemented soon. Maybe one day ?)
+ * Term -> Atom
+ * Term -> Atom * Atom
+ * Term -> Atom / Atom
+ * Expr -> Term
+ * Expr -> Term + Term
+ * Expr -> Term - Term
  * Statement -> LetStatement
  * Statement -> PrintStatement
  * LetStatement -> let Variable = Expr;
