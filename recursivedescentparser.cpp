@@ -10,7 +10,7 @@ RecursiveDescentParser::RecursiveDescentParser(const QVector<Token>& t) : tokens
 
 bool RecursiveDescentParser::accept(Token::TokenType t)
 {
-    if (it->type == t)
+    if (peek() == t)
     {
         ++it;
         return true;
@@ -19,7 +19,7 @@ bool RecursiveDescentParser::accept(Token::TokenType t)
 }
 void RecursiveDescentParser::expect(Token::TokenType t, QString err)
 {
-    if (it->type != t)
+    if (peek() != t)
         throw MyException(QStringLiteral("Syntax Error : ") + err + QString(" at line %1").arg(it->line));
 
     it++;
