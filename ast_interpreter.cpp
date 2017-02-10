@@ -31,7 +31,7 @@ void ASTInterpreter::visitPrintStatement(ASTPrintStatement &p)
 {
     if (!environment.contains(p.varName))
         throw MyException("Printing unreferenced variable !");
-    stream << QString("%1 = %2").arg(p.varName).arg(environment[p.varName]);
+    stream << QString("%1 = %2").arg(p.varName).arg(environment[p.varName]) << endl;
 }
 
 void ASTInterpreter::visitVariable(ASTVariable &p)
