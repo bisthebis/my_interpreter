@@ -5,6 +5,7 @@
 #include "token.h"
 #include <QSharedPointer>
 #include <QScopedPointer>
+#include <QQueue>
 #include "astvisitor.h"
 #include "astnode.h"
 
@@ -28,6 +29,7 @@ private:
     Node parseAtom();
     Node parseTerm();
     Node parseExpression();
+    Node processTerms(QQueue<RecursiveDescentParser::Node>& terms, QQueue<Token::TokenType>& ops);
 public:
     RecursiveDescentParser(const QVector<Token>& t);
     Node parse(); // returns the program, as top-tier
