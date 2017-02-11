@@ -9,7 +9,7 @@ Assignment is of the form :
 Printing is of the form : 
 *print var;*
 
-Comments start by // and go until the end of the line
+Comments start by // and go until the end of the line. There are also multi-lines comment that start with /* and end with */. It is not allowed to nest them.
 
 Expressions are composed of addtion, multiplication, substraction and division, with literals and previously defined constants.
 

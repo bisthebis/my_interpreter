@@ -58,11 +58,13 @@ QVector<Token> scan(const QString source)
         }   else if (c == '-') {
             result.append(Token(Token::MINUS, "-", "-", line));
         }   else if (c == '*') {
-            result.append(Token(Token::TIMES, "*", "*", line));
+                result.append(Token(Token::TIMES, "*", "*", line));
         }   else if (c == '/') {
-                if (*(it+1) != '/')
-                    result.append(Token(Token::SLASH, "/", "/", line));
-                else parseComment(it);
+                if (*(it+1) == '/')
+                    skipLineComment(it, endOfFile);
+                else if (*(it+1) == '*')
+                    skipMultiLinesComment(++it, endOfFile);
+                else result.append(Token(Token::SLASH, "/", "/", line));
         }   else if (c == '(') {
                 result.append(Token(Token::LEFT_PAREN, "(", "(", line));
         }   else if (c == ')') {
@@ -98,6 +100,18 @@ QString parseNumber(QString::ConstIterator &it) {
     --it;
     return lexeme;
 }
-void parseComment(QString::ConstIterator& it) {
-    while (*(++it) != QChar::LineFeed) ;
+void skipLineComment(QString::ConstIterator& it, QString::ConstIterator eof) {
+    while (*(++it) != QChar::LineFeed && it != eof) ;
+}
+void skipMultiLinesComment(QString::ConstIterator &it, QString::ConstIterator eof) {
+    while(it != eof)
+    {
+        ++it;
+        const auto c = *it;
+        if (c == '*') {
+            ++it;
+            if (*it == '/')
+                return;
+        }
+    }
 }

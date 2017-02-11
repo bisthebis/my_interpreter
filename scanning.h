@@ -12,7 +12,8 @@ QString getFileContent(const QString& path);
 QVector<Token> scan(const QString source);
 QString parseWord(QString::ConstIterator &it);
 QString parseNumber(QString::ConstIterator &it);
-void parseComment(QString::ConstIterator& it);
+void skipLineComment(QString::ConstIterator& it, QString::ConstIterator eof);
+void skipMultiLinesComment(QString::ConstIterator& it, QString::ConstIterator eof);
 
 
 
