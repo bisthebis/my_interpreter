@@ -22,8 +22,8 @@ Formal rules :
  * Term -> Atom * Atom
  * Term -> Atom / Atom
  * Expr -> Term
- * Expr -> Expr + Expr
- * Expr -> Expr - Expr
+ * Expr -> Term {+ Expr}
+ * Expr -> Term {- Expr}
  * Statement -> LetStatement
  * Statement -> PrintStatement
  * LetStatement -> let Variable = Expr;

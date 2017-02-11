@@ -1,6 +1,7 @@
 #include "recursivedescentparser.h"
 #include "astnode.h"
 #include <QString>
+#include <QQueue>
 
 namespace RecursiveDescent {
 RecursiveDescentParser::RecursiveDescentParser(const QVector<Token>& t) : tokens(t), it(t.begin()), end(t.end()) {
@@ -84,17 +85,65 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseTerm() {
     }
     return lhs;
 }
+//Helper for parseExpression
+RecursiveDescentParser::Node RecursiveDescentParser::processTerms(QQueue<RecursiveDescentParser::Node>& terms, QQueue<Token::TokenType>& ops) {
+    if (ops.size() == 0) throw MyException("Received no operators !");
+    switch (terms.size()) {
+    case 0:
+        throw MyException("Empty list of terms in parsing !");
+        break;
+    case 1:
+        return terms.head();
+        break;
+    case 2:
+    {
+        auto lhs = terms.dequeue();
+        auto rhs = terms.dequeue();
+        auto op = ops.dequeue();
+        if (op == Token::PLUS)
+            return RecursiveDescentParser::Node(new ASTPlus(lhs, rhs));
+        else if (op == Token::MINUS)
+            return RecursiveDescentParser::Node(new ASTMinus(lhs, rhs));
+        else throw MyException("Neither + or -");
+    }
+        break;
+    default: //Recursive case
+    {
+        auto lhs = terms.dequeue();
+        auto rhs = terms.head(); // rhs will be replaced by (lhs +/- rhs) in the queue, so it's not deleted
+        auto op = ops.dequeue();
+        auto newHead = [&]() {
+            if (op == Token::PLUS)
+                return RecursiveDescentParser::Node(new ASTPlus(lhs, rhs));
+            else if (op == Token::MINUS)
+                return RecursiveDescentParser::Node(new ASTMinus(lhs, rhs));
+            else throw MyException("Neither + or -");
+        }();
+        terms.head().swap(newHead);
+        return processTerms(terms, ops);
+    }
+        break;
+    }
 
+}
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
-    //TODO : fix associativity. A - B + C gets parsed as A - (B + C)
-    auto lhs = parseTerm();
-    if (accept(Token::PLUS)) {
-        return Node(new ASTPlus(lhs, parseExpression()));
-    }
-    if (accept(Token::MINUS)) {
-        return Node(new ASTMinus(lhs, parseExpression()));
-    }
-    return lhs;
+    //Create list of terms && ops, then consume it in FIFO (fort left associativity)
+    QQueue<Node> terms;
+    terms.append(parseTerm());
+    QQueue<Token::TokenType> operators; //Only + or -
+    do {
+        if (accept(Token::PLUS))
+            operators.append(Token::PLUS);
+        else if (accept(Token::MINUS))
+            operators.append(Token::MINUS);
+        else
+            return terms.head();
+
+        terms.append(parseTerm());
+    } while (peek() == Token::PLUS || peek() == Token::MINUS);
+
+
+    return processTerms(terms, operators);
 }
 
 
