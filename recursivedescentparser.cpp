@@ -60,17 +60,25 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
 RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {
     //exponent (one day ?)
     QVariant value = it->value;
+    Node lhs;
     if (accept(Token::IDENTIFIER)) {
-        return Node(new ASTVariable(value.toString()));
+        lhs = Node(new ASTVariable(value.toString()));
     }
     if (accept(Token::NUMBER)) {
-        return Node(new ASTNumber(value.toDouble()));
+        lhs = Node(new ASTNumber(value.toDouble()));
     }
     if (accept(Token::LEFT_PAREN)) {
-        auto expr = parseExpression();
+        lhs = parseExpression();
         expect(Token::RIGHT_PAREN, QStringLiteral("Expected end of parenthesis"));
-        return expr;
     }
+
+    if (accept(Token::EXPONENT))
+    {
+        auto rhs = parseAtom();
+        return Node(new ASTExponent(lhs, rhs));
+    }
+    else return lhs;
+
     throw MyException("Atom that is neither id, number, or expression within parenthesis");
 
 }

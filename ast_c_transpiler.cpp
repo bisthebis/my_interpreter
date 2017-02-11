@@ -7,7 +7,10 @@ using namespace RecursiveDescent;
 
 AST_C_Transpiler::AST_C_Transpiler(QString file) : targetFile(file)
 {
+    if (!mustIncludeMathHeader)
         content << "#include <stdio.h>\n" << "\n" << "int main(void) \n" << "{\n";
+    else
+        content << "#include <stdio.h>\n" << "#include <math.h>\n" << "\n" << "int main(void) \n" << "{\n";
 }
 
 void AST_C_Transpiler::visitProgram(ASTProgram &p)
@@ -86,4 +89,13 @@ void AST_C_Transpiler::visitSlash(ASTSlash &p)
     p.rhs->accept(*this);
     currentExpr += ") ";
 
+}
+
+void AST_C_Transpiler::visitExponent(ASTExponent &p)
+{
+    currentExpr += " (pow(";
+    p.lhs->accept(*this);
+    currentExpr += ", ";
+    p.rhs->accept(*this);
+    currentExpr += "))";
 }

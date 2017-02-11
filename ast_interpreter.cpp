@@ -81,3 +81,13 @@ void ASTInterpreter::visitSlash(ASTSlash &p)
     buffer = lhs / buffer;
 
 }
+
+void ASTInterpreter::visitExponent(ASTExponent &p)
+{
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    if (lhs < 0)
+        throw MyException("negative number as exponent base");
+    buffer = pow(lhs, buffer);
+}

@@ -65,6 +65,8 @@ QVector<Token> scan(const QString source)
                 else if (*(it+1) == '*')
                     skipMultiLinesComment(++it, endOfFile);
                 else result.append(Token(Token::SLASH, "/", "/", line));
+        }   else if (c == '^') {
+            result.append(Token(Token::EXPONENT, "^", "^", line));
         }   else if (c == '(') {
                 result.append(Token(Token::LEFT_PAREN, "(", "(", line));
         }   else if (c == ')') {

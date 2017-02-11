@@ -20,6 +20,7 @@ static QString typeToString(Token::TokenType type) {
     SHOW(Token::END_OF_STATEMENT);
     SHOW(Token::LEFT_PAREN);
     SHOW(Token::RIGHT_PAREN);
+    SHOW(Token::EXPONENT);
 
     default:
         throw MyException("UNKNOW TOKEN TYPE");

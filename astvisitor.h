@@ -1,6 +1,8 @@
 #ifndef ASTVISITOR_H
 #define ASTVISITOR_H
 
+#include "myexception.h"
+
 namespace RecursiveDescent {
 
 struct ASTProgram;
@@ -12,6 +14,7 @@ struct ASTTimes;
 struct ASTSlash;
 struct ASTNumber;
 struct ASTVariable;
+struct ASTExponent;
 
 class ASTVisitor
 {
@@ -27,6 +30,7 @@ public:
     virtual void visitSlash(ASTSlash& p) = 0;
     virtual void visitNumber(ASTNumber& p) = 0;
     virtual void visitVariable(ASTVariable& p) = 0;
+    virtual void visitExponent(ASTExponent& p) {Q_UNUSED(p); throw MyException("Unimplemented yet !");};
 };
 }
 #endif // ASTVISITOR_H

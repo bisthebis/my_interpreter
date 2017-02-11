@@ -11,7 +11,7 @@ Printing is of the form :
 
 Comments start by // and go until the end of the line. There are also multi-lines comment that start with /* and end with */. It is not allowed to nest them.
 
-Expressions are composed of addtion, multiplication, substraction and division, with literals and previously defined constants.
+Expressions are composed of addtion, multiplication, substraction, division, and exponentiation with literals and previously defined constants.
 
 ##Syntax analysis
 
@@ -31,5 +31,5 @@ Formal rules :
  * LetStatement -> let Variable = Expr;
  * PrintStatement -> print Variable;
 
- Terminal symbols are {Number, Variable, let, print, =, +, -, *, /, ;}
+ Terminal symbols are {Number, Variable, let, print, =, +, -, *, /, ^, ;}
  Non-Terminal symbols are {Expr, Statement, LetStatement, PrintStatement}

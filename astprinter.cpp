@@ -75,7 +75,12 @@ void ASTPrinter::visitSlash(ASTSlash &p)
     p.rhs->accept(*this);
 }
 
-
+void ASTPrinter::visitExponent(ASTExponent &p)
+{
+    qDebug() << "Visiting exponentiation... Subexpressions are going to be visited";
+    p.lhs->accept(*this);
+    p.rhs->accept(*this);
+}
 
 
 

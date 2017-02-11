@@ -24,6 +24,7 @@ public:
     virtual void visitSlash(ASTSlash& p) Q_DECL_OVERRIDE;
     virtual void visitNumber(ASTNumber& p) Q_DECL_OVERRIDE;
     virtual void visitVariable(ASTVariable& p) Q_DECL_OVERRIDE;
+    virtual void visitExponent(ASTExponent& p) Q_DECL_OVERRIDE;
 
     bool hadErrors;
 private:

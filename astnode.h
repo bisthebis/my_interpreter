@@ -57,6 +57,12 @@ struct ASTSlash : ASTNode {
     ASTSlash(QSharedPointer<ASTNode> l, QSharedPointer<ASTNode> r) : lhs(l), rhs(r) {}
 };
 
+struct ASTExponent : ASTNode {
+    virtual void accept(ASTVisitor& v) {v.visitExponent(*this);}
+    QSharedPointer<ASTNode> lhs, rhs;
+    ASTExponent(QSharedPointer<ASTNode> l, QSharedPointer<ASTNode> r) : lhs(l), rhs(r) {}
+};
+
 struct ASTVariable : ASTNode {
     virtual void accept(ASTVisitor& v) {v.visitVariable(*this);}
     ASTVariable(QString v) : varName(v) {}

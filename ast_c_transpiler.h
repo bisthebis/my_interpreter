@@ -22,10 +22,12 @@ public:
     virtual void visitSlash(RecursiveDescent::ASTSlash& p) Q_DECL_OVERRIDE;
     virtual void visitNumber(RecursiveDescent::ASTNumber& p) Q_DECL_OVERRIDE;
     virtual void visitVariable(RecursiveDescent::ASTVariable& p) Q_DECL_OVERRIDE;
+    virtual void visitExponent(RecursiveDescent::ASTExponent &p) Q_DECL_OVERRIDE;
 private:
     QString currentExpr;
     QString targetFile;
     QStringList content;
+    bool mustIncludeMathHeader = true; //Assumed until opposite gets implemented
 
 };
 
