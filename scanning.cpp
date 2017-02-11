@@ -60,7 +60,9 @@ QVector<Token> scan(const QString source)
         }   else if (c == '*') {
             result.append(Token(Token::TIMES, "*", "*", line));
         }   else if (c == '/') {
-            result.append(Token(Token::SLASH, "/", "/", line));
+                if (*(it+1) != '/')
+                    result.append(Token(Token::SLASH, "/", "/", line));
+                else parseComment(it);
         }   else if (c == '(') {
                 result.append(Token(Token::LEFT_PAREN, "(", "(", line));
         }   else if (c == ')') {
@@ -95,4 +97,7 @@ QString parseNumber(QString::ConstIterator &it) {
     }
     --it;
     return lexeme;
+}
+void parseComment(QString::ConstIterator& it) {
+    while (*(++it) != QChar::LineFeed) ;
 }

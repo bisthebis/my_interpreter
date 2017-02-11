@@ -9,6 +9,8 @@ Assignment is of the form :
 Printing is of the form : 
 *print var;*
 
+Comments start by // and go until the end of the line
+
 Expressions are composed of addtion, multiplication, substraction and division, with literals and previously defined constants.
 
 ##Syntax analysis
