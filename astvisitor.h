@@ -31,8 +31,8 @@ public:
     virtual void visitSlash(ASTSlash& p) = 0;
     virtual void visitNumber(ASTNumber& p) = 0;
     virtual void visitVariable(ASTVariable& p) = 0;
-    virtual void visitExponent(ASTExponent& p) {Q_UNUSED(p); throw MyException("Unimplemented yet !");}
-    virtual void visitCond(ASTCond& p) {Q_UNUSED(p); throw MyException("Unimplemented yet !");}
+    virtual void visitExponent(ASTExponent& p) = 0;
+    virtual void visitCond(ASTCond& p) = 0;
 };
 }
 #endif // ASTVISITOR_H
