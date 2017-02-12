@@ -13,6 +13,8 @@ Comments start by // and go until the end of the line. There are also multi-line
 
 Expressions are composed of addtion, multiplication, substraction, division, and exponentiation with literals and previously defined constants.
 
+Conditions are **expressions** in the form *if cond then x else y endif*, where cond is a number and is evaluated to True if it's not 0.
+
 ##Syntax analysis
 
 Formal rules :

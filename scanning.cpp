@@ -39,6 +39,18 @@ QVector<Token> scan(const QString source)
             } else if (currentWord == "print")
             {
                 result.append(Token(Token::PRINT, currentWord, currentWord, line));
+            } else if (currentWord == "if")
+            {
+                result.append(Token(Token::IF, currentWord, currentWord, line));
+            } else if (currentWord == "then")
+            {
+                result.append(Token(Token::THEN, currentWord, currentWord, line));
+            } else if (currentWord == "else")
+            {
+                result.append(Token(Token::ELSE, currentWord, currentWord, line));
+            } else if (currentWord == "endif")
+            {
+                result.append(Token(Token::ENDIF, currentWord, currentWord, line));
             } else {
                 result.append(Token(Token::IDENTIFIER, currentWord, currentWord, line));
             }

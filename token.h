@@ -12,6 +12,8 @@ public:
 
         LET, PRINT,
 
+        IF, THEN, ELSE, ENDIF,
+
         IDENTIFIER, NUMBER, //An identifier starts by a letter or _ and an number is a double
         INCORRECT_TOKEN
     };
