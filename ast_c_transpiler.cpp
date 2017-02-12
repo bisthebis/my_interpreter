@@ -99,3 +99,13 @@ void AST_C_Transpiler::visitExponent(ASTExponent &p)
     p.rhs->accept(*this);
     currentExpr += "))";
 }
+
+void AST_C_Transpiler::visitCond(ASTCond &p) {
+    currentExpr += " (";
+    p.cond->accept(*this);
+    currentExpr += "== 0 ? ";
+    p.then->accept(*this);
+    currentExpr += " : ";
+    p.otherwise->accept(*this);
+    currentExpr += " )";
+}

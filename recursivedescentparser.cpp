@@ -136,22 +136,35 @@ RecursiveDescentParser::Node RecursiveDescentParser::processTerms(QQueue<Recursi
 }
 RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
     //Create list of terms && ops, then consume it in FIFO (fort left associativity)
-    QQueue<Node> terms;
-    terms.append(parseTerm());
-    QQueue<Token::TokenType> operators; //Only + or -
-    do {
-        if (accept(Token::PLUS))
-            operators.append(Token::PLUS);
-        else if (accept(Token::MINUS))
-            operators.append(Token::MINUS);
-        else
-            return terms.head();
-
+    if (accept(Token::IF))
+    {
+        auto cond = parseExpression();
+        expect(Token::THEN, QStringLiteral("Expected \"then\" after a condition."));
+        auto then = parseExpression();
+        expect(Token::ELSE, QStringLiteral("Expected \"else\" statement"));
+        auto otherwise = parseExpression();
+        expect(Token::ENDIF, QStringLiteral("Expected \"endif\" after a condition"));
+        return Node(new ASTCond(cond, then, otherwise));
+    }
+    else
+    {
+        QQueue<Node> terms;
         terms.append(parseTerm());
-    } while (peek() == Token::PLUS || peek() == Token::MINUS);
+        QQueue<Token::TokenType> operators; //Only + or -
+        do {
+            if (accept(Token::PLUS))
+                operators.append(Token::PLUS);
+            else if (accept(Token::MINUS))
+                operators.append(Token::MINUS);
+            else
+                return terms.head();
+
+            terms.append(parseTerm());
+        } while (peek() == Token::PLUS || peek() == Token::MINUS);
 
 
-    return processTerms(terms, operators);
+        return processTerms(terms, operators);
+    }
 }
 
 

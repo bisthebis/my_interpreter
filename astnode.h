@@ -75,5 +75,11 @@ struct ASTNumber : ASTNode {
     ASTNumber (double v) : value(v) {}
 };
 
+struct ASTCond : ASTNode {
+    virtual void accept(ASTVisitor& v) {v.visitCond(*this);}
+    QSharedPointer<ASTNode> cond, then, otherwise;
+    ASTCond(QSharedPointer<ASTNode> c, QSharedPointer<ASTNode> t, QSharedPointer<ASTNode> o) : cond(c), then(t), otherwise(o){}
+};
+
 }
 #endif // ASTNODE_H

@@ -22,6 +22,7 @@ public:
     virtual void visitNumber(RecursiveDescent::ASTNumber& p) Q_DECL_OVERRIDE;
     virtual void visitVariable(RecursiveDescent::ASTVariable& p) Q_DECL_OVERRIDE;
     virtual void visitExponent(RecursiveDescent::ASTExponent& p) Q_DECL_OVERRIDE;
+    virtual void visitCond(RecursiveDescent::ASTCond &p) Q_DECL_OVERRIDE;
 private:
     QMap<QString, double> environment;
     QTextStream& stream;

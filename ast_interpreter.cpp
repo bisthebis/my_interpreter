@@ -91,3 +91,13 @@ void ASTInterpreter::visitExponent(ASTExponent &p)
         throw MyException("negative number as exponent base");
     buffer = pow(lhs, buffer);
 }
+
+void ASTInterpreter::visitCond(ASTCond &p) {
+    p.cond->accept(*this);
+    bool cond = buffer != 0;
+    if (cond)
+        p.then->accept(*this);
+    else
+        p.otherwise->accept(*this);
+
+}

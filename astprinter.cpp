@@ -82,6 +82,13 @@ void ASTPrinter::visitExponent(ASTExponent &p)
     p.rhs->accept(*this);
 }
 
+void ASTPrinter::visitCond(ASTCond &p)
+{
+    qDebug() << "Visiting condition. Condition, then true case and false case will be visited";
+    p.cond->accept(*this);
+    p.then->accept(*this);
+    p.otherwise->accept(*this);
+}
 
 
 

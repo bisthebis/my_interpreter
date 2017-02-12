@@ -28,6 +28,7 @@ Formal rules :
  * Expr -> Term
  * Expr -> Term {+ Expr}
  * Expr -> Term {- Expr}
+ * Expr -> if Expr then Expr else Expr endif
  * Statement -> LetStatement
  * Statement -> PrintStatement
  * LetStatement -> let Variable = Expr;
