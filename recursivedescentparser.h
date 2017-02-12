@@ -30,6 +30,7 @@ private:
     Node parseTerm();
     Node parseExpression();
     Node processTerms(QQueue<RecursiveDescentParser::Node>& terms, QQueue<Token::TokenType>& ops);
+    Node parseBool();
 public:
     RecursiveDescentParser(const QVector<Token>& t);
     Node parse(); // returns the program, as top-tier

@@ -84,8 +84,9 @@ struct ASTCond : ASTNode {
 struct ASTComparison : ASTNode {
     enum Comparator {EQ, NEQ, GT, GET, LT, LET};
     QSharedPointer<ASTNode> lhs, rhs;
+    Comparator op;
     virtual void accept(ASTVisitor& v) {v.visitComparison(*this);}
-    ASTComparison(QSharedPointer<ASTNode> lhs, QSharedPointer<ASTNode> rhs, Comparator comp);
+    ASTComparison(QSharedPointer<ASTNode> lhs, QSharedPointer<ASTNode> rhs, Comparator comp) : lhs(lhs), rhs(rhs), op(comp) {}
 };
 
 }

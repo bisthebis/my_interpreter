@@ -138,7 +138,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
     //Create list of terms && ops, then consume it in FIFO (fort left associativity)
     if (accept(Token::IF))
     {
-        auto cond = parseExpression();
+        auto cond = parseBool();
         expect(Token::THEN, QStringLiteral("Expected \"then\" after a condition."));
         auto then = parseExpression();
         expect(Token::ELSE, QStringLiteral("Expected \"else\" statement"));
@@ -165,6 +165,53 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseExpression() {
 
         return processTerms(terms, operators);
     }
+}
+
+RecursiveDescentParser::Node RecursiveDescentParser::parseBool()
+{
+    if (!accept(Token::LEFT_PAREN))
+    {
+        return parseExpression();
+    }
+    else {
+        auto lhs = parseExpression();
+        auto opToken = peek(); ++it;
+        auto rhs = parseExpression();
+
+        expect(Token::RIGHT_PAREN, QStringLiteral("Expected comparison to be between parenthesis"));
+
+        if (opToken != Token::EQ && opToken != Token::NEQ && opToken != Token::GREATER_OR_EQUAL && opToken != Token::GT && opToken != Token::LESS_OR_EQUAL && opToken != Token::LT)
+            throw MyException("boolean expression must use either ==, !=, <, <=, >, >= between members");
+
+        ASTComparison::Comparator op;
+
+        switch (opToken) {
+        case Token::EQ:
+            op = ASTComparison::EQ;
+            break;
+        case Token::NEQ:
+            op = ASTComparison::NEQ;
+            break;
+        case Token::GT:
+            op = ASTComparison::GT;
+            break;
+        case Token::LT:
+            op = ASTComparison::LT;
+            break;
+        case Token::LESS_OR_EQUAL:
+            op = ASTComparison::LT;
+            break;
+        case Token::GREATER_OR_EQUAL:
+            op = ASTComparison::GT;
+            break;
+        default:
+            throw MyException("Error in parseBool : unexpected comparison operator");
+            break;
+        }
+
+        return Node(new ASTComparison(lhs, rhs, op));
+        }
+
 }
 
 
