@@ -26,6 +26,7 @@ public:
     virtual void visitVariable(ASTVariable& p) Q_DECL_OVERRIDE;
     virtual void visitExponent(ASTExponent& p) Q_DECL_OVERRIDE;
     virtual void visitCond(ASTCond& p) Q_DECL_OVERRIDE;
+    virtual void visitComparison(ASTComparison& p) Q_DECL_OVERRIDE;
 
     bool hadErrors;
 private:

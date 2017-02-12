@@ -101,3 +101,34 @@ void ASTInterpreter::visitCond(ASTCond &p) {
         p.otherwise->accept(*this);
 
 }
+
+void ASTInterpreter::visitComparison(ASTComparison &p) {
+    //evaluate lhs then rhs;
+    p.lhs->accept(*this);
+    double lhs = buffer;
+    p.rhs->accept(*this);
+    double rhs = buffer;
+    bool result;
+    switch (p.op) {
+        case ASTComparison::EQ:
+            result = lhs == rhs;
+            break;
+        case ASTComparison::NEQ:
+            result = lhs != rhs;
+            break;
+        case ASTComparison::GT:
+            result = lhs > rhs;
+            break;
+        case ASTComparison::LT:
+            result = lhs < rhs;
+            break;
+        case ASTComparison::LET:
+            result = lhs <= rhs;
+            break;
+        case ASTComparison::GET:
+            result = lhs >= rhs;
+            break;
+        default: throw MyException("Unknown op !");
+    }
+    buffer = result ? 1 : 0;
+}

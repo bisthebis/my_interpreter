@@ -90,6 +90,12 @@ void ASTPrinter::visitCond(ASTCond &p)
     p.otherwise->accept(*this);
 }
 
+void ASTPrinter::visitComparison(ASTComparison &p)
+{
+    qDebug() << "Visiting condition. LHS and RHS will be shown. Comparsion operator is : " << p.op;
+    p.lhs->accept(*this);
+    p.rhs->accept(*this);
+}
 
 
 }

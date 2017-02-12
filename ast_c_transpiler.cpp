@@ -109,3 +109,31 @@ void AST_C_Transpiler::visitCond(ASTCond &p) {
     p.otherwise->accept(*this);
     currentExpr += " )";
 }
+
+void AST_C_Transpiler::visitComparison(ASTComparison &p) {
+    currentExpr += " (";
+    p.lhs->accept(*this);
+    switch (p.op) {
+        case ASTComparison::EQ:
+            currentExpr += "==";
+            break;
+        case ASTComparison::NEQ:
+             currentExpr += "!=";
+            break;
+        case ASTComparison::GT:
+             currentExpr += ">";
+            break;
+        case ASTComparison::LT:
+             currentExpr += "<";
+            break;
+        case ASTComparison::LET:
+             currentExpr += "<=";
+            break;
+        case ASTComparison::GET:
+             currentExpr += ">=";
+            break;
+        default: throw MyException("Unknown op !");
+    }
+    p.rhs->accept(*this);
+    currentExpr += ") ";
+}
