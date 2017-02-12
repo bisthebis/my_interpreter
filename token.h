@@ -13,6 +13,7 @@ public:
         LET, PRINT,
 
         IF, THEN, ELSE, ENDIF,
+        LT, GT, EQ, NEQ, LESS_OR_EQUAL, GREATER_OR_EQUAL,
 
         IDENTIFIER, NUMBER, //An identifier starts by a letter or _ and an number is a double
         INCORRECT_TOKEN

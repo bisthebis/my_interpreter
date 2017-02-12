@@ -64,7 +64,13 @@ QVector<Token> scan(const QString source)
         {
             result.append(Token(Token::END_OF_STATEMENT, ";", ";", line));
         }   else if (c == '=') {
-            result.append(Token(Token::EQUAL, "=", "=", line));
+            if (*(it+1) == '=')
+            {
+                ++it;
+                result.append(Token(Token::EQ, "==", "==", line));
+            }
+            else
+                result.append(Token(Token::EQUAL, "=", "=", line));
         }   else if (c == '+') {
             result.append(Token(Token::PLUS, "+", "+", line));
         }   else if (c == '-') {
@@ -83,6 +89,28 @@ QVector<Token> scan(const QString source)
                 result.append(Token(Token::LEFT_PAREN, "(", "(", line));
         }   else if (c == ')') {
                 result.append(Token(Token::RIGHT_PAREN, ")", ")", line));
+        }   else if (c == '>') {
+            if (*(it+1) == '=')
+            {
+                ++it;
+                result.append(Token(Token::GREATER_OR_EQUAL, ">=", ">=", line));
+            }
+            else
+                result.append(Token(Token::GT, ">", ">", line));
+        }   else if (c == '<') {
+            if (*(it+1) == '=')
+            {
+                ++it;
+                result.append(Token(Token::LESS_OR_EQUAL, "<=", "<=", line));
+            }
+            else
+                result.append(Token(Token::LT, "<", "<, line"));
+        }   else if (c == '!') {
+            ++it;
+            if (*it != '=')
+                throw MyException("Expected \"!=\" token");
+            else
+                result.append(Token(Token::NEQ, "!=", "!="));
         }
 
         ++it;

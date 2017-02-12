@@ -25,6 +25,12 @@ static QString typeToString(Token::TokenType type) {
     SHOW(Token::ELSE);
     SHOW(Token::THEN);
     SHOW(Token::ENDIF);
+    SHOW(Token::GT);
+    SHOW(Token::LT);
+    SHOW(Token::EQ);
+    SHOW(Token::NEQ);
+    SHOW(Token::LESS_OR_EQUAL);
+
 
     default:
         throw MyException("UNKNOW TOKEN TYPE");
