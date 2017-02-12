@@ -16,6 +16,7 @@ struct ASTNumber;
 struct ASTVariable;
 struct ASTExponent;
 struct ASTCond;
+struct ASTComparison;
 
 class ASTVisitor
 {
@@ -33,6 +34,7 @@ public:
     virtual void visitVariable(ASTVariable& p) = 0;
     virtual void visitExponent(ASTExponent& p) = 0;
     virtual void visitCond(ASTCond& p) = 0;
+    virtual void visitComparison(ASTComparison& p) {Q_UNUSED(p); throw MyException("Unimplemented !");}
 };
 }
 #endif // ASTVISITOR_H
