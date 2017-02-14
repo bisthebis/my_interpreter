@@ -106,11 +106,13 @@ QVector<Token> scan(const QString source)
             else
                 result.append(Token(Token::LT, "<", "<, line"));
         }   else if (c == '!') {
-            ++it;
-            if (*it != '=')
-                throw MyException("Expected \"!=\" token");
-            else
-                result.append(Token(Token::NEQ, "!=", "!="));
+                ++it;
+                if (*it != '=')
+                    throw MyException("Expected \"!=\" token");
+                else
+                    result.append(Token(Token::NEQ, "!=", "!=", line));
+        }   else if (c == ',') {
+                result.append(Token(Token::COMMA, ",", ",", line));
         }
 
         ++it;

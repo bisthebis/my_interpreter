@@ -30,6 +30,7 @@ static QString typeToString(Token::TokenType type) {
     SHOW(Token::EQ);
     SHOW(Token::NEQ);
     SHOW(Token::LESS_OR_EQUAL);
+    SHOW(Token::COMMA);
 
 
     default:

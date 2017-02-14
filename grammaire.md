@@ -20,6 +20,7 @@ Conditions are **expressions** in the form *if cond then x else y endif*, where 
 Formal rules :
  * Atom -> Number
  * Atom -> Variable
+ * Atom -> function (args)
  * Atom -> (Expr)
  * Atom -> Atom ^ Atom (Not implemented soon. Maybe one day ?)
  * Term -> Atom

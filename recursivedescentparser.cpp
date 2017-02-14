@@ -57,12 +57,27 @@ RecursiveDescentParser::Node RecursiveDescentParser::parsePrint()
     expect(Token::END_OF_STATEMENT, QStringLiteral("Expected semicolon"));
     return Node(new ASTPrintStatement(variableName));
 }
+RecursiveDescentParser::Node RecursiveDescentParser::parseFunctionCall(const QString& name) {
+    //left parenthesis has already been consumed
+    QVector<Node> args;
+    args.append(parseExpression());
+    while (!accept(Token::RIGHT_PAREN))
+    {
+        expect(Token::COMMA, QStringLiteral("Function args must be separated by commas ','."));
+        args.append(parseExpression());
+    }
+    throw MyException(QString("Unimplemented function '%2' call with %1 parameters").arg(args.size()).arg(name));
+}
+
 RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {
     //exponent (one day ?)
     QVariant value = it->value;
     Node lhs;
     if (accept(Token::IDENTIFIER)) {
-        lhs = Node(new ASTVariable(value.toString()));
+        //If it's followed by a parenthesis, it's a func call. Otherwise it's a variable
+        if (!accept(Token::LEFT_PAREN))
+            lhs = Node(new ASTVariable(value.toString()));
+        else return parseFunctionCall(value.toString());
     }
     if (accept(Token::NUMBER)) {
         lhs = Node(new ASTNumber(value.toDouble()));

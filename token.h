@@ -14,6 +14,7 @@ public:
 
         IF, THEN, ELSE, ENDIF,
         LT, GT, EQ, NEQ, LESS_OR_EQUAL, GREATER_OR_EQUAL,
+        COMMA,
 
         IDENTIFIER, NUMBER, //An identifier starts by a letter or _ and an number is a double
         INCORRECT_TOKEN
