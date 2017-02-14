@@ -137,3 +137,15 @@ void AST_C_Transpiler::visitComparison(ASTComparison &p) {
     p.rhs->accept(*this);
     currentExpr += ") ";
 }
+
+void AST_C_Transpiler::visitFunctionCall(ASTFunctionCall &p)
+{
+    currentExpr += " " + p.fname + "(";
+    if (p.args.size() == 0)
+        currentExpr += ")";
+    else if (p.args.size() == 1)
+    {
+        p.args[0]->accept(*this);
+        currentExpr += ")";
+    }
+}

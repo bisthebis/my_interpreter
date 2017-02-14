@@ -90,5 +90,12 @@ struct ASTComparison : ASTNode {
     ASTComparison(Node lhs, Node rhs, Comparator comp) : lhs(lhs), rhs(rhs), op(comp) {}
 };
 
+struct ASTFunctionCall : ASTNode {
+    QString fname;
+    QVector<Node> args;
+    ASTFunctionCall(QString name, QVector<Node> args) : fname(name), args(args) {}
+    virtual void accept(ASTVisitor&v) {v.visitFunctionCall(*this);}
+};
+
 }
 #endif // ASTNODE_H

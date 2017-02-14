@@ -66,7 +66,7 @@ RecursiveDescentParser::Node RecursiveDescentParser::parseFunctionCall(const QSt
         expect(Token::COMMA, QStringLiteral("Function args must be separated by commas ','."));
         args.append(parseExpression());
     }
-    throw MyException(QString("Unimplemented function '%2' call with %1 parameters").arg(args.size()).arg(name));
+    return Node(new ASTFunctionCall(name, args));
 }
 
 RecursiveDescentParser::Node RecursiveDescentParser::parseAtom() {

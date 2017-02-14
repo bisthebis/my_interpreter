@@ -97,5 +97,12 @@ void ASTPrinter::visitComparison(ASTComparison &p)
     p.rhs->accept(*this);
 }
 
+void ASTPrinter::visitFunctionCall(ASTFunctionCall &p)
+{
+    qDebug() << "Visiting function call. Name is : " << p.fname << ". It has " << p.args.size() << " elements : ";
+    for (auto& arg : p.args)
+        arg->accept(*this);
+}
+
 
 }

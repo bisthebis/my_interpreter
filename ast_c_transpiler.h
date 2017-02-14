@@ -25,6 +25,7 @@ public:
     virtual void visitExponent(RecursiveDescent::ASTExponent &p) Q_DECL_OVERRIDE;
     virtual void visitCond(RecursiveDescent::ASTCond &p) Q_DECL_OVERRIDE;
     virtual void visitComparison(RecursiveDescent::ASTComparison &p) Q_DECL_OVERRIDE;
+    virtual void visitFunctionCall(RecursiveDescent::ASTFunctionCall &p) Q_DECL_OVERRIDE;
 private:
     QString currentExpr;
     QString targetFile;

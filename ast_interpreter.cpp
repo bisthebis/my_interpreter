@@ -132,3 +132,12 @@ void ASTInterpreter::visitComparison(ASTComparison &p) {
     }
     buffer = result ? 1 : 0;
 }
+
+void ASTInterpreter::visitFunctionCall(ASTFunctionCall &p) {
+    if (p.fname == "sin")
+    {
+        p.args[0]->accept(*this);
+        buffer = sin(buffer);
+    }
+    else throw MyException("Unknown func");
+}
